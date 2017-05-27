@@ -2,6 +2,7 @@ package priority_queue
 
 import (
 	"container/heap"
+	"sync"
 )
 
 type Interface interface {
@@ -39,6 +40,7 @@ func (s *sorter) Swap(i, j int) {
 
 // Define priority queue struct
 type PriorityQueue struct {
+	sync.Mutex
 	s *sorter
 }
 
@@ -49,14 +51,20 @@ func New() *PriorityQueue {
 }
 
 func (q *PriorityQueue) Push(x Interface) {
+	q.Lock()
+	defer q.Unlock()
 	heap.Push(q.s, x)
 }
 
 func (q *PriorityQueue) Pop() Interface {
+	q.Lock()
+	defer q.Unlock()
 	return heap.Pop(q.s).(Interface)
 }
 
 func (q *PriorityQueue) Top() Interface {
+	q.Lock()
+	defer q.Unlock()
 	if len(*q.s) > 0 {
 		return (*q.s)[0].(Interface)
 	}
@@ -64,14 +72,20 @@ func (q *PriorityQueue) Top() Interface {
 }
 
 func (q *PriorityQueue) Fix(x Interface, i int) {
+	q.Lock()
+	defer q.Unlock()
 	(*q.s)[i] = x
 	heap.Fix(q.s, i)
 }
 
 func (q *PriorityQueue) Remove(i int) Interface {
+	q.Lock()
+	defer q.Unlock()
 	return heap.Remove(q.s, i).(Interface)
 }
 
 func (q *PriorityQueue) Len() int {
+	q.Lock()
+	defer q.Unlock()
 	return q.s.Len()
 }

@@ -1,4 +1,4 @@
-非线程安全的优先队列（golang标准库中的heap是小根堆）
+线程安全的优先队列（golang标准库中的heap是小根堆）
 
 ~~~ go
 package main
