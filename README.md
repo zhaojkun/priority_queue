@@ -5,7 +5,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gansidui/priority_queue"
+	"github.com/zhaojkun/priority_queue"
 )
 
 type Node struct {
